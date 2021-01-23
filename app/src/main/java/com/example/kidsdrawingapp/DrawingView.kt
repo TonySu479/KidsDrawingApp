@@ -33,6 +33,11 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 //        mBrushSize= 20.toFloat()
     }
 
+    fun setColor(newColor: String){
+        color = Color.parseColor(newColor)
+        mDrawPaint!!.color = color
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         mCanvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
@@ -51,7 +56,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
         if(!mDrawPath!!.isEmpty){
             mDrawPaint!!.strokeWidth = mDrawPath!!.brushThickness
-            mDrawPaint!!.color = mDrawPaint!!.color
+            mDrawPaint!!.color = mDrawPath!!.color
             canvas.drawPath(mDrawPath!!, mDrawPaint!!)
         }
     }
@@ -73,12 +78,12 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
             }
             MotionEvent.ACTION_UP -> {
                 mPaths.add(mDrawPath!!)
+
                 mDrawPath = CustomPath(color, mBrushSize)
             }
             else -> return false
         }
         invalidate()
-
         return true
     }
 
